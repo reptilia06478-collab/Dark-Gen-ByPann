@@ -1,4 +1,4 @@
-const CACHE = 'darkgen-v1.1';
+const CACHE = 'darkgen-v5.0';
 const ASSETS = ['./', './index.html', './style.css', './data.js', './tools.js', './manifest.json'];
 
 self.addEventListener('install', (e) => {
@@ -16,7 +16,6 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // Skip external API
   if (!e.request.url.startsWith(self.location.origin)) return;
   e.respondWith(
     fetch(e.request)
@@ -29,8 +28,4 @@ self.addEventListener('fetch', (e) => {
       })
       .catch(() => caches.match(e.request) || caches.match('./index.html'))
   );
-});
-
-self.addEventListener('message', (e) => {
-  if (e.data === 'SKIP_WAITING') self.skipWaiting();
 });
