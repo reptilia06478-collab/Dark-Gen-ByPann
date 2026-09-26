@@ -1,4 +1,4 @@
-const CACHE = 'darkgen-v1';
+const CACHE = 'darkgen-v1.1';
 const ASSETS = ['./', './index.html', './style.css', './data.js', './tools.js', './manifest.json'];
 
 self.addEventListener('install', (e) => {
