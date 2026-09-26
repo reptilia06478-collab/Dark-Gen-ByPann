@@ -1,0 +1,18 @@
+{
+  "name": "DARK GEN by PANN",
+  "short_name": "DARK GEN",
+  "description": "All Tools Free — Downloader, Maker, Security Scanner by PANN",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#a855f7",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23a855f7'/><stop offset='1' stop-color='%23d946ef'/></linearGradient></defs><rect width='192' height='192' rx='40' fill='%230a0a0f'/><text x='50%' y='50%' font-size='110' text-anchor='middle' dominant-baseline='central'>⚡</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
