@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0a0a0f">
+<title>DARK GEN — by PANN</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loading-content">
+    <div class="loading-logo">⚡</div>
+    <div class="loading-title">DARK GEN</div>
+    <div class="loading-text">System Initializing</div>
+    <div class="loading-bar">
+      <div class="loading-fill" id="loadingFill"></div>
+    </div>
+    <div class="loading-percent" id="loadingPct">0%</div>
+  </div>
+</div>
+
+<canvas id="bgc"></canvas>
+<div class="mesh"></div>
+<div class="grid"></div>
+<div class="scan"></div>
+<div class="vignette"></div>
+<div class="tst-c" id="tstC"></div>
+
+<div class="wrap">
+  <!-- HERO -->
+  <header class="hd">
+    <div class="hero-bg" style="background-image:url('https://i.ibb.co.com/rG3LMwCG/pann-profile.jpg')"></div>
+    <div class="hero-overlay"></div>
+    <div class="clock">
+      <div class="t" id="clkT">--:--:--</div>
+      <div id="clkD">---</div>
+    </div>
+    <div class="tc">
+      <button class="cb" onclick="toggleTheme()" id="thBtn">🌙</button>
+      <button class="cb" onclick="toggleSound()" id="snBtn">🔊</button>
+    </div>
+    <div class="logo-wrap">
+      <div class="logo-ring"></div>
+      <div class="logo">⚡</div>
+    </div>
+    <h1>DARK GEN</h1>
+    <div class="sub">by <span class="pn">PANN</span></div>
+    <div class="status">
+      <span class="dot"></span> DARK GEN Online
+    </div>
+    <div class="channels">
+      <a href="https://whatsapp.com/channel/0029VbDuDSa6GcGNOUXRos3R" target="_blank" class="ch-btn">
+        📢 Gabung Saluran WhatsApp · PANN TECH
+      </a>
+    </div>
+  </header>
+
+  <!-- TOP MENU INFORMASI -->
+  <div class="top-menu">
+    <button class="tm-btn" onclick="showModal('about')">ℹ️ About Dev</button>
+    <button class="tm-btn" onclick="showModal('report')">🐛 Report Bug</button>
+    <a class="tm-btn" href="https://whatsapp.com/channel/0029VbDuDSa6GcGNOUXRos3R" target="_blank">📢 Saluran WhatsApp</a>
+  </div>
+
+  <!-- USER INFO BAR (MIRIP NEXUS) -->
+  <div class="user-info-bar" id="userInfoBar">
+    <div class="uib-avatar">👤</div>
+    <div class="uib-grid">
+      <div class="uib-item">
+        <span class="uib-label">🌐 NEGARA</span>
+        <span class="uib-value" id="uibCountry">🇮🇩 Loading...</span>
+      </div>
+      <div class="uib-item">
+        <span class="uib-label">📱 DEVICE</span>
+        <span class="uib-value" id="uibDevice">—</span>
+      </div>
+      <div class="uib-item">
+        <span class="uib-label">🌐 BROWSER</span>
+        <span class="uib-value" id="uibBrowser">—</span>
+      </div>
+      <div class="uib-item">
+        <span class="uib-label">📊 STATUS</span>
+        <span class="uib-value" style="color:var(--gn)">● Online</span>
+      </div>
+    </div>
+    <div class="uib-badges">
+      <span class="uib-badge" id="uibBattery">🔋 —</span>
+      <span class="uib-badge">👤 Role: member</span>
+      <span class="uib-badge vip">👑 VVIP</span>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input id="searchInput" type="text" placeholder="Cari tools... (contoh: tiktok, qr, fake)" oninput="filterTools()">
+    <button class="search-clear" onclick="clearSearch()" id="clearBtn" style="display:none">✕</button>
+  </div>
+
+  <!-- KATEGORI (MIRIP NEXUS) -->
+  <div class="cats" id="catBar">
+    <button class="cat-btn on" data-cat="all" onclick="setCat('all')">📦 All</button>
+    <button class="cat-btn" data-cat="downloader" onclick="setCat('downloader')">📥 Downloader</button>
+    <button class="cat-btn" data-cat="maker" onclick="setCat('maker')">🎨 Maker</button>
+    <button class="cat-btn" data-cat="tools" onclick="setCat('tools')">🛠️ Tools</button>
+    <button class="cat-btn" data-cat="security" onclick="setCat('security')">🔒 Security</button>
+    <button class="cat-btn" data-cat="vvip" onclick="setCat('vvip')">👑 VVIP</button>
+  </div>
+
+  <!-- JUDUL SECTION DINAMIS -->
+  <div class="section-title" id="sectionTitle">
+    <span class="st-icon">📦</span>
+    <span class="st-text">Semua Tools</span>
+  </div>
+
+  <!-- GRID TOOLS -->
+  <div id="toolsGrid" class="tools-grid"></div>
+
+  <!-- HISTORY DOWNLOAD -->
+  <div class="history-section" id="historySection">
+    <div class="section-title">
+      <span class="st-icon">📜</span>
+      <span class="st-text">History Download</span>
+      <span class="st-count" id="histCount">0</span>
+    </div>
+    <div id="historyList" class="history-list"></div>
+  </div>
+
+  <!-- MODAL TOOL -->
+  <div id="toolModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-hd">
+        <h2 id="modalTitle">Tool</h2>
+        <button class="modal-close" onclick="closeTool()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- MODAL INFO -->
+  <div id="infoModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-hd">
+        <h2 id="infoTitle">Info</h2>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="infoBody"></div>
+    </div>
+  </div>
+
+  <!-- MODAL JOIN -->
+  <div id="joinModal" class="modal-overlay">
+    <div class="modal" style="max-width:420px">
+      <div class="modal-hd" style="border-bottom:none;padding-bottom:0">
+        <button class="modal-close" onclick="closeJoin()" style="margin-left:auto">✕</button>
+      </div>
+      <div class="modal-body" style="text-align:center;padding-top:0">
+        <div style="font-size:56px;margin-bottom:10px;animation:logoFloat 3s ease-in-out infinite">📢</div>
+        <h2 style="font-size:20px;margin-bottom:10px;color:var(--tx)">Gabung Saluran WhatsApp</h2>
+        <p style="font-size:13px;color:var(--mt);line-height:1.6;margin-bottom:20px">
+          Dapetin update, info fitur, dan tools terbaru langsung dari <b style="color:var(--pn)">PANN TECH</b>.
+        </p>
+        <a href="https://whatsapp.com/channel/0029VbDuDSa6GcGNOUXRos3R" target="_blank" class="btn btn-p" style="text-decoration:none;display:block;text-align:center;padding:14px;font-size:14px">
+          💬 Gabung ke Saluran
+        </a>
+        <button class="btn btn-b" style="margin-top:10px" onclick="closeJoin()">Nanti aja</button>
+        <div style="font-size:10px;color:var(--mt);margin-top:15px">Saluran resmi DARK GEN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="ft">
+    <div class="ft-name">DARK GEN</div>
+    <div class="ft-dev">DEV: <span class="pn">PANN</span></div>
+    <div class="ft-ch">
+      <a href="https://whatsapp.com/channel/0029VbDuDSa6GcGNOUXRos3R" target="_blank">📢 PANN TECH</a>
+    </div>
+    <div class="ft-copy">© 2025 DARK GEN · All Tools Free</div>
+  </footer>
+</div>
+
+<div id="cpB" class="copy-badge">✅ Tersalin!</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="data.js"></script>
+<script src="tools.js"></script>
+<script>
+// ============ LOADING OVERLAY ============
+(function() {
+  const overlay = document.getElementById('loadingOverlay');
+  const fill = document.getElementById('loadingFill');
+  const pct = document.getElementById('loadingPct');
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 15 + 5;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(interval);
+      setTimeout(() => {
+        overlay.classList.add('hide');
+        setTimeout(() => {
+          if (!sessionStorage.getItem('darkgen_join_shown')) {
+            document.getElementById('joinModal').classList.add('show');
+            sessionStorage.setItem('darkgen_join_shown', '1');
+          }
+        }, 600);
+      }, 400);
+    }
+    fill.style.width = progress + '%';
+    pct.textContent = Math.floor(progress) + '%';
+  }, 180);
+})();
+
+// ============ CORE ============
+const SND_KEY='darkgen_snd',TH_KEY='darkgen_theme';
+let sndOn=localStorage.getItem(SND_KEY)!=='false';
+let actx=null;
+let currentCat='all';
+let currentSearch='';
+
+function playSnd(t='click'){if(!sndOn)return;try{if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);const f={click:800,success:1200,error:300,pop:1000};o.frequency.value=f[t]||800;o.type='sine';g.gain.setValueAtTime(.04,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.1);o.start();o.stop(actx.currentTime+.1)}catch(e){}}
+function toggleSound(){sndOn=!sndOn;localStorage.setItem(SND_KEY,sndOn);document.getElementById('snBtn').textContent=sndOn?'🔊':'🔇';showToast(sndOn?'🔊 Sound ON':'🔇 Sound OFF','info',1200)}
+function haptic(p=[10]){if(navigator.vibrate)navigator.vibrate(p)}
+
+function showToast(m,t='info',d=2500){const c=document.getElementById('tstC');const el=document.createElement('div');el.className='tst '+t;el.textContent=m;c.appendChild(el);setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),300)},d)}
+function copyText(t){navigator.clipboard.writeText(t).then(()=>{showCopyBadge();showToast('✅ Tersalin!','success',1500);playSnd('success')}).catch(()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();showCopyBadge();showToast('✅ Tersalin!','success',1500)})}
+function showCopyBadge(){const b=document.getElementById('cpB');b.classList.add('show');setTimeout(()=>b.classList.remove('show'),2000)}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+// ============ THEME ============
+function toggleTheme(){const c=document.body.getAttribute('data-theme');const n=c==='dark'?'light':'dark';document.body.setAttribute('data-theme',n);document.getElementById('thBtn').textContent=n==='dark'?'🌙':'☀️';localStorage.setItem(TH_KEY,n);playSnd('click')}
+function loadTheme(){const s=localStorage.getItem(TH_KEY)||'dark';document.body.setAttribute('data-theme',s);document.getElementById('thBtn').textContent=s==='dark'?'🌙':'☀️'}
+
+// ============ CLOCK ============
+function updClk(){const n=new Date();document.getElementById('clkT').textContent=n.toLocaleTimeString('id-ID',{hour12:false});document.getElementById('clkD').textContent=n.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'})}
+setInterval(updClk,1000);updClk();
+
+// ============ USER INFO BAR ============
+async function loadUserInfo(){
+  // Country
+  try {
+    const r = await fetch('https://ipapi.co/json/');
+    const d = await r.json();
+    if (d.country_code) {
+      document.getElementById('uibCountry').textContent = `${getFlagEmoji(d.country_code)} ${d.country_name || d.country_code}`;
+    }
+  } catch(e) {
+    // Fallback
+    try {
+      const r2 = await fetch('http://ip-api.com/json/?fields=country,countryCode');
+      const d2 = await r2.json();
+      if (d2.country) {
+        document.getElementById('uibCountry').textContent = `${getFlagEmoji(d2.countryCode)} ${d2.country}`;
+      }
+    } catch(e2) {
+      document.getElementById('uibCountry').textContent = '🌍 Unknown';
+    }
+  }
+  
+  // Device
+  const ua = navigator.userAgent;
+  let device = 'Unknown';
+  if (/android/i.test(ua)) device = 'Android';
+  else if (/iphone|ipad|ipod/i.test(ua)) device = 'iOS';
+  else if (/windows/i.test(ua)) device = 'Windows';
+  else if (/mac/i.test(ua)) device = 'Mac';
+  else if (/linux/i.test(ua)) device = 'Linux';
+  document.getElementById('uibDevice').textContent = device;
+  
+  // Browser
+  let browser = 'Unknown';
+  if (/edg/i.test(ua)) browser = 'Edge';
+  else if (/chrome/i.test(ua)) browser = 'Chrome';
+  else if (/firefox/i.test(ua)) browser = 'Firefox';
+  else if (/safari/i.test(ua)) browser = 'Safari';
+  else if (/opera|opr/i.test(ua)) browser = 'Opera';
+  document.getElementById('uibBrowser').textContent = browser;
+  
+  // Battery
+  if (navigator.getBattery) {
+    try {
+      const b = await navigator.getBattery();
+      const update = () => {
+        const pct = Math.round(b.level * 100);
+        document.getElementById('uibBattery').textContent = `🔋 ${pct}%${b.charging ? ' ⚡' : ''}`;
+      };
+      update();
+      b.addEventListener('levelchange', update);
+      b.addEventListener('chargingchange', update);
+    } catch(e) {}
+  } else {
+    document.getElementById('uibBattery').textContent = '🔋 N/A';
+  }
+}
+function getFlagEmoji(code) {
+  if (!code) return '🌍';
+  return code.toUpperCase().replace(/./g, c => String.fromCodePoint(127397 + c.charCodeAt()));
+}
+
+// ============ PARTICLES ============
+(function(){const c=document.getElementById('bgc'),x=c.getContext('2d');let p=[],w,h;function r(){w=c.width=innerWidth;h=c.height=innerHeight}r();addEventListener('resize',r);const N=Math.min(55,Math.floor(innerWidth/14));for(let i=0;i<N;i++)p.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.8+.4,c:Math.random()>.5?'168,85,247':'217,70,239'});function d(){x.clearRect(0,0,w,h);for(let i=0;i<p.length;i++){const a=p[i];a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>w)a.vx*=-1;if(a.y<0||a.y>h)a.vy*=-1;x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);x.fillStyle=`rgba(${a.c},.6)`;x.fill();for(let j=i+1;j<p.length;j++){const b=p[j],dx=a.x-b.x,dy=a.y-b.y,ds=Math.sqrt(dx*dx+dy*dy);if(ds<130){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle=`rgba(${a.c},${.15*(1-ds/130)})`;x.lineWidth=.6;x.stroke()}}}requestAnimationFrame(d)}d()})();
+
+// ============ SECTION TITLE ============
+const CAT_TITLES = {
+  'all': { icon: '📦', text: 'Semua Tools' },
+  'downloader': { icon: '📥', text: 'Downloader' },
+  'maker': { icon: '🎨', text: 'Maker' },
+  'tools': { icon: '🛠️', text: 'Tools' },
+  'security': { icon: '🔒', text: 'Security' },
+  'vvip': { icon: '👑', text: 'VVIP Tools' },
+};
+
+// ============ RENDER TOOLS ============
+function renderTools(){
+  const grid=document.getElementById('toolsGrid');
+  let list=TOOLS.filter(t=>{
+    const catMatch=currentCat==='all'||t.cat===currentCat;
+    const searchMatch=!currentSearch||t.name.toLowerCase().includes(currentSearch)||t.desc.toLowerCase().includes(currentSearch)||t.tag.toLowerCase().includes(currentSearch);
+    return catMatch&&searchMatch;
+  });
+  if(!list.length){grid.innerHTML='<div class="empty">🔍 Gak ada tool yang cocok</div>';return}
+  grid.innerHTML=list.map(t=>`
+    <div class="card ${t.vip?'card-vip':''}" onclick="openTool('${t.id}')">
+      <div class="card-icon">${t.icon}</div>
+      <div class="card-name">${esc(t.name)}</div>
+      <div class="card-desc">${esc(t.desc)}</div>
+      <div class="card-tag ${t.vip?'vip':''}">${esc(t.tag)}</div>
+    </div>
+  `).join('');
+}
+
+function setCat(c){
+  currentCat=c;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('on',b.dataset.cat===c));
+  // Update section title
+  const t = CAT_TITLES[c] || CAT_TITLES['all'];
+  document.getElementById('sectionTitle').innerHTML = `<span class="st-icon">${t.icon}</span><span class="st-text">${t.text}</span>`;
+  renderTools();
+  playSnd('click');
+}
+function filterTools(){currentSearch=document.getElementById('searchInput').value.toLowerCase().trim();document.getElementById('clearBtn').style.display=currentSearch?'block':'none';renderTools()}
+function clearSearch(){document.getElementById('searchInput').value='';currentSearch='';document.getElementById('clearBtn').style.display='none';renderTools()}
+
+// ============ HISTORY ============
+const HIST_KEY = 'darkgen_history';
+function getHistory(){try{return JSON.parse(localStorage.getItem(HIST_KEY)||'[]')}catch{return[]}}
+function addHistory(item){
+  const h = getHistory();
+  h.unshift({...item, timestamp: new Date().toISOString()});
+  if(h.length > 30) h.length = 30;
+  localStorage.setItem(HIST_KEY, JSON.stringify(h));
+  renderHistory();
+}
+function renderHistory(){
+  const h = getHistory();
+  const list = document.getElementById('historyList');
+  const count = document.getElementById('histCount');
+  if(count) count.textContent = h.length;
+  if(!list) return;
+  if(!h.length){
+    list.innerHTML = `<div class="history-empty">📭 Belum ada riwayat download</div>`;
+    return;
+  }
+  list.innerHTML = h.map(item => `
+    <div class="history-item">
+      <div class="hi-icon">${item.icon || '📥'}</div>
+      <div class="hi-content">
+        <div class="hi-title">${esc(item.title || 'Download')}</div>
+        <div class="hi-desc">${esc(item.desc || '')}</div>
+        <div class="hi-time">${new Date(item.timestamp).toLocaleString('id-ID')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============ TOOL MODAL ============
+let activeTool=null;
+function openTool(id){
+  const t=TOOLS.find(x=>x.id===id);
+  if(!t)return;
+  activeTool=t;
+  document.getElementById('modalTitle').innerHTML=`${t.icon} ${esc(t.name)}`;
+  const body=document.getElementById('modalBody');
+  body.innerHTML=t.render?t.render():'<div class="empty">Tool belum tersedia</div>';
+  document.getElementById('toolModal').classList.add('show');
+  document.body.style.overflow='hidden';
+  playSnd('pop');haptic();
+  if(t.init)setTimeout(()=>t.init(),50);
+}
+function closeTool(){document.getElementById('toolModal').classList.remove('show');document.body.style.overflow='';activeTool=null}
+document.getElementById('toolModal').addEventListener('click',e=>{if(e.target.id==='toolModal')closeTool()});
+
+// ============ INFO MODAL ============
+function showModal(type){
+  const t=document.getElementById('infoTitle');
+  const b=document.getElementById('infoBody');
+  if(type==='about'){
+    t.textContent='ℹ️ About Dev';
+    b.innerHTML=`
+      <div class="info-row"><span>Nama</span><b>PANN</b></div>
+      <div class="info-row"><span>Role</span><b>Developer & Security</b></div>
+      <div class="info-row"><span>Project</span><b>DARK GEN</b></div>
+      <div class="info-row"><span>Saluran</span><a href="https://whatsapp.com/channel/0029VbDuDSa6GcGNOUXRos3R" target="_blank" style="color:var(--pn)">PANN TECH</a></div>
+      <p style="margin-top:15px;font-size:12px;color:var(--mt);line-height:1.6">
+        DARK GEN adalah kumpulan tools gratis — downloader, maker, security scanner.
+        Semua tools berjalan di browser tuan, gak ada data yang disimpan di server.
+      </p>
+    `;
+  }else if(type==='report'){
+    t.textContent='🐛 Report Bug';
+    b.innerHTML=`
+      <p style="font-size:13px;line-height:1.6;margin-bottom:15px">
+        Ketemu bug? Kirim laporan ke saluran PANN TECH:
+      </p>
+      <a href="https://whatsapp.com/channel/0029VbDuDSa6GcGNOUXRos3R" target="_blank" class="btn btn-p" style="text-decoration:none;display:block;text-align:center">
+        📢 Buka Saluran PANN TECH
+      </a>
+      <p style="font-size:11px;color:var(--mt);margin-top:15px;line-height:1.6">
+        Sertakan:<br>
+        • Nama tool<br>
+        • Screenshot error<br>
+        • Device + browser
+      </p>
+    `;
+  }
+  document.getElementById('infoModal').classList.add('show');
+  document.body.style.overflow='hidden';
+  playSnd('pop');
+}
+function closeModal(){document.getElementById('infoModal').classList.remove('show');document.body.style.overflow=''}
+document.getElementById('infoModal').addEventListener('click',e=>{if(e.target.id==='infoModal')closeModal()});
+
+// ============ JOIN MODAL ============
+function closeJoin(){document.getElementById('joinModal').classList.remove('show');document.body.style.overflow=''}
+document.getElementById('joinModal').addEventListener('click',e=>{if(e.target.id==='joinModal')closeJoin()});
+
+// ============ INIT ============
+loadTheme();
+document.getElementById('snBtn').textContent=sndOn?'🔊':'🔇';
+renderTools();
+renderHistory();
+loadUserInfo();
+
+console.log('%c⚡ DARK GEN v5.0','color:#a855f7;font-size:24px;font-weight:900;text-shadow:0 0 20px #a855f7');
+console.log('%cDEV: PANN · Saluran: PANN TECH','color:#58a6ff;font-size:12px');
+console.log(`%c${TOOLS.length} tools loaded`,'color:#7ee787;font-size:11px');
+</script>
+</body>
+  </html>
